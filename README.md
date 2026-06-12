@@ -6,14 +6,14 @@ Responses use a standardized JSON format.
 ---
 
 ## Base URL
-`http://localhost:8000/api`
+`http://localhost:8000/api/v1`
 
 ---
 
 ## 1. Authentication Routes
 
 ### Register a new user
-**Endpoint:** `POST /register`
+**Endpoint:** `POST /auth/register`
 **Visibility:** Public
 
 **Request Body (JSON):**
@@ -29,7 +29,7 @@ Responses use a standardized JSON format.
 *Note: `role` can be `admin` or `user`.*
 
 ### Login
-**Endpoint:** `POST /login`
+**Endpoint:** `POST /auth/login`
 **Visibility:** Public
 
 **Request Body (JSON):**
@@ -48,18 +48,18 @@ Returns the user object along with a `token`. You must use this token in the `Au
 *Requires header: `Authorization: Bearer {your_token}`*
 
 ### Get Current Profile
-**Endpoint:** `GET /profile`
+**Endpoint:** `GET /auth/profile`
 Returns the currently authenticated user.
 
 ### Upload Avatar
-**Endpoint:** `POST /user/avatar`
+**Endpoint:** `POST /auth/user/avatar`
 **Content-Type:** `multipart/form-data`
 
 **Request Body:**
 - `avatar`: (File) The image file (jpeg, png, jpg, gif) Max size: 2MB.
 
 ### Logout
-**Endpoint:** `POST /logout`
+**Endpoint:** `POST /auth/logout`
 Invalidates the current token.
 
 ---
