@@ -50,6 +50,7 @@ class ApiResponse
             'data' => $data,
             'error' => $error,
             'errors' => $errors,
+            'timestamp' => now()->toIso8601String(),
         ];
 
         return response()->json($response, $statusCode->value, $headers);

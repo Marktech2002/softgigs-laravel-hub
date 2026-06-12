@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\UserRoles;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -48,5 +49,13 @@ class User extends Authenticatable
             'password' => 'hashed',
             'role' => UserRoles::class,
         ];
+    }
+
+    /**
+     * Get the listings bookmarked by the user.
+     */
+    public function bookmarkedListings(): BelongsToMany
+    {
+        return $this->belongsToMany(Listing::class, 'listing_user', 'user_id', 'listing_id')->withTimestamps();
     }
 }
