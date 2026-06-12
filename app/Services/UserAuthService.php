@@ -86,6 +86,26 @@ class UserAuthService
      */
     public function getProfile(User $user): array
     {
-        return $user->only(['id', 'name', 'email', 'phone', 'role']);
+        $data = $user->only(['id', 'name', 'email', 'phone', 'role', 'avatar']);
+        if ($user->avatar) {
+            $data['avatar_url'] = asset('storage/' . $user->avatar);
+        }
+        return $data;
+    }
+
+    /**
+     * Upload and update the user's avatar.
+     */
+    public function uploadAvatar(User $user, UploadedFile $file): User
+    {
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        $path = $file->store('avatars', 'public');
+        
+        $user->update(['avatar' => $path]);
+
+        return $user;
     }
 }

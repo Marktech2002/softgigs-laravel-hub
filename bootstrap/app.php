@@ -15,5 +15,31 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('api/*')) {
+                return \App\Libs\ApiResponse::notFound('The requested endpoint could not be found.');
+            }
+        });
+
+        $exceptions->render(function (\Illuminate\Database\Eloquent\ModelNotFoundException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('api/*')) {
+                return \App\Libs\ApiResponse::notFound('The requested resource could not be found in our database.');
+            }
+        });
+
+        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('api/*')) {
+                return \App\Libs\ApiResponse::validationError(
+                    message: 'Validation failed.',
+                    error: $e->getMessage(),
+                    errors: $e->errors()
+                );
+            }
+        });
+
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('api/*')) {
+                return \App\Libs\ApiResponse::unauthorized('Unauthenticated.');
+            }
+        });
     })->create();
