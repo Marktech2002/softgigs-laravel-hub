@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+use App\Libs\ApiResponse;
+
 Route::get('/', function () {
-    return view('welcome');
+    return ApiResponse::success('welcome to soft gigs Tawab hub for Laravel projects');
 });

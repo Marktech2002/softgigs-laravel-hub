@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 Route::get('/listings', [ListingController::class, 'index']);
 Route::get('/listings/{id}', [ListingController::class, 'show']);
 
+// Health Check
+Route::get('/health', function () {
+    return \App\Libs\ApiResponse::success('API is healthy and running.');
+});
+
 Route::prefix('auth')->group(function () {
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/login', [UserController::class, 'login']);
